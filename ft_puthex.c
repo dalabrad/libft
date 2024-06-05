@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 12:07:06 by dalabrad          #+#    #+#             */
-/*   Updated: 2024/05/20 16:53:51 by dalabrad         ###   ########.fr       */
+/*   Created: 2024/04/22 15:28:55 by dalabrad          #+#    #+#             */
+/*   Updated: 2024/05/20 17:01:43 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+int	ft_puthex(unsigned int n, const char format)
 {
-	size_t		src_len;
+	int		len;
 
-	src_len = ft_strlen(src);
-	if (size == 0)
-		return (src_len);
-	while ((size - 1) > 0 && *src != '\0')
+	if (format != 'x' && format != 'X')
+		return (-1);
+	len = 0;
+	if (n < 10)
 	{
-		*dest = *src;
-		dest++;
-		src++;
-		size--;
+		len += ft_putchar('0' + n);
 	}
-	*dest = '\0';
-	return (src_len);
+	else if (9 < n && n < 16)
+	{
+		if (format == 'x')
+			len += ft_putchar('a' + n - 10);
+		else
+			len += ft_putchar('A' + n - 10);
+	}
+	else
+	{
+		len += ft_puthex(n / 16, format);
+		len += ft_puthex(n % 16, format);
+	}
+	return (len);
 }

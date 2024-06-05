@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_putaddress.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 12:07:06 by dalabrad          #+#    #+#             */
-/*   Updated: 2024/05/20 16:53:51 by dalabrad         ###   ########.fr       */
+/*   Created: 2024/04/22 16:27:31 by dalabrad          #+#    #+#             */
+/*   Updated: 2024/05/20 17:07:46 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+static int	ft_puthexlong(unsigned long n)
 {
-	size_t		src_len;
+	int		len;
 
-	src_len = ft_strlen(src);
-	if (size == 0)
-		return (src_len);
-	while ((size - 1) > 0 && *src != '\0')
+	len = 0;
+	if (n < 10)
+		len += ft_putchar('0' + n);
+	else if (9 < n && n < 16)
+		len += ft_putchar('a' + n - 10);
+	else
 	{
-		*dest = *src;
-		dest++;
-		src++;
-		size--;
+		len += ft_puthexlong(n / 16);
+		len += ft_puthexlong(n % 16);
 	}
-	*dest = '\0';
-	return (src_len);
+	return (len);
+}
+
+int	ft_putaddress(void *ptr)
+{
+	int	len;
+
+	len = 0;
+	len += ft_putstr("0x");
+	len += ft_puthexlong((unsigned long)ptr);
+	return (len);
 }
