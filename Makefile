@@ -1,5 +1,5 @@
 NAME = libft.a
-SRCS			=	$(wildcard ./ft*.c)
+SRCS			=	$(wildcard ./src/ft*.c)
 OBJS			= $(SRCS:.c=.o)				
 
 CC				= cc
